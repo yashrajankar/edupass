@@ -481,7 +481,7 @@ function formatTime(timeString) {
 // Logout function with confirmation
 window.logout = function logout() {
   if (confirm('Are you sure you want to logout?')) {
-    window.location.href = '/admin-features/dashboard/dashboard.html';
+    window.location.href = '/dashboard.html';
   }
 }
 

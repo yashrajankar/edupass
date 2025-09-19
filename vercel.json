@@ -24,20 +24,60 @@
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/index.html"
+      "src": "/dashboard.html",
+      "dest": "/dashboard.html"
     },
     {
-      "src": "/admin-features/dashboard/dashboard.html",
-      "dest": "/admin-features/dashboard/dashboard.html"
+      "src": "/exams.html",
+      "dest": "/exams.html"
+    },
+    {
+      "src": "/notifications.html",
+      "dest": "/notifications.html"
+    },
+    {
+      "src": "/profile.html",
+      "dest": "/profile.html"
+    },
+    {
+      "src": "/room.html",
+      "dest": "/room.html"
+    },
+    {
+      "src": "/seating.html",
+      "dest": "/seating.html"
+    },
+    {
+      "src": "/staff.html",
+      "dest": "/staff.html"
+    },
+    {
+      "src": "/students.html",
+      "dest": "/students.html"
+    },
+    {
+      "src": "/timetable.html",
+      "dest": "/timetable.html"
     },
     {
       "src": "/user-features/dashboard/dashboard.html",
       "dest": "/user-features/dashboard/dashboard.html"
     },
     {
-      "src": "/admin-features/(.*)",
-      "dest": "/admin-features/$1"
+      "src": "/user-features/exams/exams.html",
+      "dest": "/user-features/exams/exams.html"
+    },
+    {
+      "src": "/user-features/notifications/notifications.html",
+      "dest": "/user-features/notifications/notifications.html"
+    },
+    {
+      "src": "/user-features/profile/profile.html",
+      "dest": "/user-features/profile/profile.html"
+    },
+    {
+      "src": "/user-features/seating/seating.html",
+      "dest": "/user-features/seating/seating.html"
     },
     {
       "src": "/user-features/(.*)",
@@ -45,7 +85,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/$1"
+      "dest": "/index.html"
     }
   ]
 }
