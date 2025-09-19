@@ -60,7 +60,7 @@ This project can be deployed to Vercel as a static website:
    - Output Directory: ./
 6. Click "Deploy"
 
-The application will be available at your Vercel URL. The root index.html file will automatically redirect to the login page.
+The application will be available at your Vercel URL. The root index.html file serves as the login page for both admin and user portals.
 
 ### Local Development
 
@@ -74,11 +74,22 @@ This will start the server on `http://localhost:3000`
 
 ## Usage
 
-1. Access the admin panel at `http://localhost:3000/admin`
-2. Import student, staff, room, and timetable data using the provided CSV templates
-3. Generate seating arrangements using the room assignment algorithms
-4. View and manage seating plans in the admin interface
-5. Students can access their seating arrangements through the user portal
+1. Access the login page at the root URL
+2. Use the toggle button to switch between Admin and User login
+3. For Admin:
+   - Username: admin
+   - Password: admin123
+   - After login, you'll be redirected to the admin dashboard
+4. For User:
+   - Enter your Roll No. and Password
+   - After login, you'll be redirected to the user dashboard
+
+## Project Structure
+
+- `index.html` - Main login page
+- `admin-features/` - Admin portal pages and functionality
+- `user-features/` - User portal pages and functionality
+- `deployment-ready/` - Complete application package ready for deployment
 
 ## Contributing
 
