@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - AICN</title>
-    <link rel="stylesheet" href="../../admin.css">
+    <link rel="stylesheet" href="admin.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="../../config.js"></script>
-    <script src="../../utils.js"></script>
+    <script src="config.js"></script>
+    <script src="utils.js"></script>
     <style>
         body {
             background-color: #f5f7fb;
@@ -480,12 +480,12 @@
             // Clear user data from localStorage
             localStorage.removeItem('currentUser');
             // Redirect to login page
-            window.location.href = '../../index.html';
+            window.location.href = 'index.html';
         }
 
         // Add event listener to logout link
         document.addEventListener('DOMContentLoaded', function() {
-            const logoutLink = document.querySelector('a[href="../../index.html"]');
+            const logoutLink = document.querySelector('a[href="index.html"]');
             if (logoutLink) {
                 logoutLink.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -667,6 +667,6 @@
             fetchRecentNotifications();
         });
     </script>
-    <script src="../../user.js"></script>
+    <script src="user.js"></script>
 </body>
 </html>

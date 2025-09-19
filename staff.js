@@ -677,7 +677,7 @@ function showToast(message, type = 'info') {
 function logout() {
     if (confirm('Are you sure you want to logout?')) {
         // Redirect to login page or home page
-        window.location.href = '../../index.html';
+        window.location.href = 'index.html';
     }
 }
 
