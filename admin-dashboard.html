@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Admin Panel</title>
-    <link rel="stylesheet" href="/admin.css">
-    <link rel="stylesheet" href="/dashboard.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="config.js"></script>
 </head>
 <body>
     <div id="toastContainer" aria-live="polite"></div>
@@ -18,12 +19,12 @@
                 <h2>Admin Panel</h2>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="/admin-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="/timetable.html"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
-                <li><a href="/students.html"><i class="fas fa-users"></i> Students</a></li>
-                <li><a href="/room.html"><i class="fas fa-door-open"></i> Rooms</a></li>
-                <li><a href="/staff.html"><i class="fas fa-user-tie"></i> Staff</a></li>
-                <li><a href="/notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
+                <li><a href="admin-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="timetable.html"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
+                <li><a href="students.html"><i class="fas fa-users"></i> Students</a></li>
+                <li><a href="room.html"><i class="fas fa-door-open"></i> Rooms</a></li>
+                <li><a href="staff.html"><i class="fas fa-user-tie"></i> Staff</a></li>
+                <li><a href="notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
             </ul>
         </nav>
 
@@ -132,28 +133,28 @@
                 </div>
                 
                 <div class="quick-actions-grid">
-                    <div class="dashboard-widget" onclick="window.location.href='./students.html'">
+                    <div class="dashboard-widget" onclick="window.location.href='students.html'">
                         <h3><i class="fas fa-users"></i> Student Management</h3>
                         <p>Manage student records, import from CSV, and organize by sections.</p>
-                        <button class="btn btn-primary widget-btn" onclick="window.location.href='./students.html'; event.stopPropagation();">Manage Students</button>
+                        <button class="btn btn-primary widget-btn" onclick="window.location.href='students.html'; event.stopPropagation();">Manage Students</button>
                     </div>
                     
-                    <div class="dashboard-widget" onclick="window.location.href='./timetable.html'">
+                    <div class="dashboard-widget" onclick="window.location.href='timetable.html'">
                         <h3><i class="fas fa-calendar-alt"></i> Timetable Management</h3>
                         <p>Create and manage examination schedules and timetables.</p>
-                        <button class="btn btn-primary widget-btn" onclick="window.location.href='./timetable.html'; event.stopPropagation();">Manage Timetable</button>
+                        <button class="btn btn-primary widget-btn" onclick="window.location.href='timetable.html'; event.stopPropagation();">Manage Timetable</button>
                     </div>
                     
-                    <div class="dashboard-widget" onclick="window.location.href='./room.html'">
+                    <div class="dashboard-widget" onclick="window.location.href='room.html'">
                         <h3><i class="fas fa-door-open"></i> Room Management</h3>
                         <p>Manage examination rooms and their capacities.</p>
-                        <button class="btn btn-primary widget-btn" onclick="window.location.href='./room.html'; event.stopPropagation();">Manage Rooms</button>
+                        <button class="btn btn-primary widget-btn" onclick="window.location.href='room.html'; event.stopPropagation();">Manage Rooms</button>
                     </div>
                     
-                    <div class="dashboard-widget" onclick="window.location.href='./staff.html'">
+                    <div class="dashboard-widget" onclick="window.location.href='staff.html'">
                         <h3><i class="fas fa-user-tie"></i> Staff Management</h3>
                         <p>Manage staff records and their roles.</p>
-                        <button class="btn btn-primary widget-btn" onclick="window.location.href='./staff.html'; event.stopPropagation();">Manage Staff</button>
+                        <button class="btn btn-primary widget-btn" onclick="window.location.href='staff.html'; event.stopPropagation();">Manage Staff</button>
                     </div>
                 </div>
                 
@@ -197,7 +198,20 @@
         </main>
     </div>
 
-    <script src="/utils.js"></script>
-    <script src="/dashboard.js"></script>
+    <script src="utils.js"></script>
+    <script src="dashboard.js"></script>
+    <script>
+        // Ensure logout function is available
+        if (typeof logout !== 'function') {
+            function logout() {
+                if (confirm('Are you sure you want to logout?')) {
+                    // Clear any stored admin data
+                    localStorage.removeItem('currentAdmin');
+                    // Redirect to login page
+                    window.location.href = 'index.html';
+                }
+            }
+        }
+    </script>
 </body>
 </html>

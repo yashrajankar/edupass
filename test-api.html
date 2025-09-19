@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <script src="config.js"></script>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    <button onclick="testApi()">Test API Connection</button>
+    <div id="result"></div>
+
+    <script>
+        function testApi() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<p>Testing API connection...</p>';
+            
+            // Test the API URL construction
+            try {
+                const testUrl = getApiUrl('/api/health');
+                resultDiv.innerHTML += `<p>Constructed URL: ${testUrl}</p>`;
+                
+                // Log the configuration
+                const config = {
+                    development: {
+                        apiUrl: 'http://localhost:3000'
+                    },
+                    production: {
+                        apiUrl: 'https://edupass-backend.onrender.com'
+                    }
+                };
+                
+                const isDevelopment = window.location.hostname === 'localhost' || 
+                                     window.location.hostname === '127.0.0.1' ||
+                                     window.location.hostname === '' ||
+                                     window.location.hostname.includes('vercel.app');
+                
+                const currentConfig = isDevelopment ? config.development : config.production;
+                resultDiv.innerHTML += `<p>Environment: ${isDevelopment ? 'Development' : 'Production'}</p>`;
+                resultDiv.innerHTML += `<p>API Base URL: ${currentConfig.apiUrl}</p>`;
+                
+                resultDiv.innerHTML += '<p>Test completed. Check console for details.</p>';
+            } catch (error) {
+                resultDiv.innerHTML += `<p>Error: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

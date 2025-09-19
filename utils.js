@@ -267,19 +267,19 @@ window.fetchData = async function fetchData(endpoint, options = {}, retries = MA
             // Fallback to original logic if config.js is not available
             console.warn('config.js not found, using fallback API URL detection');
             
-            // Handle different endpoint formats correctly
-            let baseURL;
-            
             // Determine base URL based on environment
-            // Fix for file:// protocol access - check if we're running via file protocol
             const isFileProtocol = window.location.protocol === 'file:';
             const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-            const isProduction = !isFileProtocol && !isLocalhost;
+            const isVercel = window.location.hostname.includes('vercel.app');
             
-            // For development environments, try to detect the correct API server port
-            if (isLocalhost || isFileProtocol) {
-                // Try common development ports in order: 3002, 3000, 3001
-                // Based on our server logs, it's running on port 3002
+            let baseURL;
+            
+            if (isVercel) {
+                // For Vercel deployments, we need to proxy API calls through Vercel
+                // This assumes you have API routes set up in Vercel
+                baseURL = '';  // Relative to current domain
+            } else if (isLocalhost || isFileProtocol) {
+                // For development environments, try to detect the correct API server port
                 const commonPorts = ['3002', '3000', '3001'];
                 let workingPort = null;
                 
@@ -483,6 +483,7 @@ window.logout = function logout() {
   if (confirm('Are you sure you want to logout?')) {
     // Clear any stored user data
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentAdmin');
     // Redirect to login page
     window.location.href = 'index.html';
   }

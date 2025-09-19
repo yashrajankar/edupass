@@ -20,9 +20,21 @@
     {
       "src": "**/*.js",
       "use": "@vercel/static"
+    },
+    {
+      "src": "api/**/*.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/auth/(.*)",
+      "dest": "/api/auth/[...auth].js"
+    },
     {
       "src": "/admin-dashboard.html",
       "dest": "/admin-dashboard.html"
@@ -62,30 +74,6 @@
     {
       "src": "/timetable.html",
       "dest": "/timetable.html"
-    },
-    {
-      "src": "/user-features/dashboard/dashboard.html",
-      "dest": "/user-features/dashboard/dashboard.html"
-    },
-    {
-      "src": "/user-features/exams/exams.html",
-      "dest": "/user-features/exams/exams.html"
-    },
-    {
-      "src": "/user-features/notifications/notifications.html",
-      "dest": "/user-features/notifications/notifications.html"
-    },
-    {
-      "src": "/user-features/profile/profile.html",
-      "dest": "/user-features/profile/profile.html"
-    },
-    {
-      "src": "/user-features/seating/seating.html",
-      "dest": "/user-features/seating/seating.html"
-    },
-    {
-      "src": "/user-features/(.*)",
-      "dest": "/user-features/$1"
     },
     {
       "src": "/(.*)",

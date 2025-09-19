@@ -534,6 +534,24 @@
     <!-- Configuration script -->
     <script src="config.js"></script>
     
+    <!-- Debug information -->
+    <script>
+        // Log environment information for debugging
+        console.log('Window location:', window.location);
+        console.log('Hostname:', window.location.hostname);
+        console.log('Protocol:', window.location.protocol);
+        
+        // Check if we're on Vercel
+        if (window.location.hostname.includes('vercel.app')) {
+            console.log('Running on Vercel');
+        }
+        
+        // Check API configuration
+        if (typeof getApiUrl === 'function') {
+            console.log('API URL for health check:', getApiUrl('/api/health'));
+        }
+    </script>
+    
     <!-- <script src="OneSignalSDK-v16-ServiceWorker/OneSignalSDKWorker.js"></script>
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script> -->
     <!-- <script>
@@ -732,13 +750,47 @@
             const username = document.getElementById('adminUsername').value;
             const password = document.getElementById('adminPassword').value;
             
-            // Simple validation (in a real app, this would be server-side)
-            if (username === 'admin' && password === 'admin123') {
-                // Redirect to admin dashboard
-                window.location.href = 'admin-dashboard.html';
-            } else {
-                alert('Invalid admin credentials. Please try again.');
-            }
+            // Show loading state
+            const loginBtn = document.getElementById('btnAdminLogin');
+            const originalBtnText = loginBtn.value;
+            loginBtn.value = 'Logging in...';
+            loginBtn.disabled = true;
+            
+            // Send login request to server using the configured API URL
+            const requestData = {
+                username: username,
+                password: password
+            };
+            
+            console.log('Sending admin login request:', requestData);
+            
+            fetch(getApiUrl('/api/auth/admin/login'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Store admin data in localStorage for use in dashboard
+                    localStorage.setItem('currentAdmin', JSON.stringify(data.admin));
+                    // Redirect to admin dashboard
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    alert(data.message || 'Admin login failed');
+                }
+            })
+            .catch(error => {
+                console.error('Admin login error:', error);
+                alert('An error occurred during admin login. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                loginBtn.value = originalBtnText;
+                loginBtn.disabled = false;
+            });
         });
 
         document.getElementById('userLoginForm').addEventListener('submit', function(e) {
@@ -779,7 +831,7 @@
                     // Store user data in localStorage for use in dashboard
                     localStorage.setItem('currentUser', JSON.stringify(data.student));
                     // Redirect to user dashboard
-                    window.location.href = 'user-features/dashboard/dashboard.html';
+                    window.location.href = 'dashboard.html';
                 } else {
                     alert(data.message || 'Login failed');
                 }

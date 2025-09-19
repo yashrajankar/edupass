@@ -287,10 +287,14 @@ function logout() {
     if (confirm('Are you sure you want to logout?')) {
         // Clear any stored user data
         localStorage.removeItem('currentUser');
+        localStorage.removeItem('currentAdmin');
         // Redirect to login page
         window.location.href = 'index.html';
     }
 }
+
+// Make logout function globally available
+window.logout = logout;
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Information</title>
+    <script src="config.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .debug-section {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .debug-section h3 {
+            margin-top: 0;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+        button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Debug Information</h1>
+    
+    <div class="debug-section">
+        <h3>Environment Information</h3>
+        <p><strong>Current Hostname:</strong> <span id="hostname"></span></p>
+        <p><strong>Current Protocol:</strong> <span id="protocol"></span></p>
+        <p><strong>Is Development:</strong> <span id="isDevelopment"></span></p>
+    </div>
+    
+    <div class="debug-section">
+        <h3>API Configuration</h3>
+        <p><strong>API Base URL:</strong> <span id="apiUrl"></span></p>
+        <p><strong>Admin Login URL:</strong> <span id="adminLoginUrl"></span></p>
+        <p><strong>User Login URL:</strong> <span id="userLoginUrl"></span></p>
+    </div>
+    
+    <div class="debug-section">
+        <h3>API Health Check</h3>
+        <button onclick="checkHealth()">Check API Health</button>
+        <div id="healthResult"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h3>Local Storage</h3>
+        <button onclick="checkLocalStorage()">Check Local Storage</button>
+        <div id="localStorageResult"></div>
+    </div>
+
+    <script>
+        // Display environment information
+        document.getElementById('hostname').textContent = window.location.hostname;
+        document.getElementById('protocol').textContent = window.location.protocol;
+        
+        // Check if we're in development
+        const isDevelopment = window.location.hostname === 'localhost' || 
+                             window.location.hostname === '127.0.0.1' ||
+                             window.location.hostname === '' ||
+                             window.location.hostname.includes('vercel.app');
+        document.getElementById('isDevelopment').textContent = isDevelopment;
+        
+        // Display API configuration
+        if (typeof getApiUrl === 'function') {
+            document.getElementById('apiUrl').textContent = getApiUrl('');
+            document.getElementById('adminLoginUrl').textContent = getApiUrl('/api/auth/admin/login');
+            document.getElementById('userLoginUrl').textContent = getApiUrl('/api/auth/user/login');
+        } else {
+            document.getElementById('apiUrl').innerHTML = '<span class="error">config.js not loaded properly</span>';
+        }
+        
+        // Health check function
+        async function checkHealth() {
+            const resultDiv = document.getElementById('healthResult');
+            resultDiv.innerHTML = '<p>Checking API health...</p>';
+            
+            if (typeof checkApiHealth === 'function') {
+                try {
+                    const result = await checkApiHealth();
+                    if (result.success) {
+                        resultDiv.innerHTML = `<p class="success">API Health Check Success: ${JSON.stringify(result.data)}</p>`;
+                    } else {
+                        resultDiv.innerHTML = `<p class="error">API Health Check Failed: ${JSON.stringify(result)}</p>`;
+                    }
+                } catch (error) {
+                    resultDiv.innerHTML = `<p class="error">Error during health check: ${error.message}</p>`;
+                }
+            } else {
+                resultDiv.innerHTML = '<p class="error">Health check function not available</p>';
+            }
+        }
+        
+        // Check local storage
+        function checkLocalStorage() {
+            const resultDiv = document.getElementById('localStorageResult');
+            try {
+                const currentUser = localStorage.getItem('currentUser');
+                const currentAdmin = localStorage.getItem('currentAdmin');
+                
+                resultDiv.innerHTML = `
+                    <p><strong>Current User:</strong> ${currentUser ? 'Exists' : 'Not found'}</p>
+                    <p><strong>Current Admin:</strong> ${currentAdmin ? 'Exists' : 'Not found'}</p>
+                `;
+                
+                if (currentUser) {
+                    resultDiv.innerHTML += `<p>User Data: ${currentUser.substring(0, 100)}${currentUser.length > 100 ? '...' : ''}</p>`;
+                }
+                
+                if (currentAdmin) {
+                    resultDiv.innerHTML += `<p>Admin Data: ${currentAdmin.substring(0, 100)}${currentAdmin.length > 100 ? '...' : ''}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">Error accessing local storage: ${error.message}</p>`;
+            }
+        }
+        
+        // Run checks on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Debug page loaded');
+        });
+    </script>
+</body>
+</html>
