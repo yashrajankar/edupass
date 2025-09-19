@@ -24,6 +24,10 @@
   ],
   "routes": [
     {
+      "src": "/admin-dashboard.html",
+      "dest": "/admin-dashboard.html"
+    },
+    {
       "src": "/dashboard.html",
       "dest": "/dashboard.html"
     },

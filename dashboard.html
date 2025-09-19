@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Dashboard - AICN</title>
-    <link rel="stylesheet" href="admin.css">
+    <title>Admin Dashboard - AICN</title>
+    <link rel="stylesheet" href="/admin.css">
+    <link rel="stylesheet" href="/dashboard.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="config.js"></script>
-    <script src="utils.js"></script>
+    <script src="/config.js"></script>
+    <script src="/utils.js"></script>
     <style>
         body {
             background-color: #f5f7fb;
@@ -302,14 +303,15 @@
         <!-- Sidebar -->
         <nav class="sidebar">
             <div class="sidebar-header">
-                <h2><i class="fas fa-graduation-cap"></i> Student Portal</h2>
+                <h2><i class="fas fa-graduation-cap"></i> Admin Portal</h2>
             </div>
             <ul class="sidebar-menu">
-                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="../exams/exams.html"><i class="fas fa-calendar-alt"></i> Exam Timetable</a></li>
-                <li><a href="../seating/seating.html"><i class="fas fa-chair"></i> Seating Arrangement</a></li>
-                <li><a href="../notifications/notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
-                <li><a href="../profile/profile.html"><i class="fas fa-user-circle"></i> Profile</a></li>
+                <li><a href="/dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/timetable.html"><i class="fas fa-calendar-alt"></i> Timetable</a></li>
+                <li><a href="/students.html"><i class="fas fa-users"></i> Students</a></li>
+                <li><a href="/room.html"><i class="fas fa-door-open"></i> Rooms</a></li>
+                <li><a href="/staff.html"><i class="fas fa-user-tie"></i> Staff</a></li>
+                <li><a href="/notifications.html"><i class="fas fa-bell"></i> Notifications</a></li>
                 <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
             </ul>
         </nav>
@@ -317,75 +319,56 @@
         <!-- Main Content -->
         <main class="main-content">
             <div class="header">
-                <h1><i class="fas fa-tachometer-alt"></i> Student Dashboard</h1>
+                <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
                 <div class="user-info">
                     <span id="currentDateTime"></span>
-                    <span>Student</span>
+                    <span>Admin</span>
                     <i class="fas fa-user-circle"></i>
                 </div>
             </div>
 
             <div class="content-wrapper">
                 <div class="welcome-section">
-                    <h2>Welcome, Student!</h2>
-                    <p>Here's your personalized dashboard with all the information you need for your exams.</p>
+                    <h2>Welcome, Admin!</h2>
+                    <p>Here's your personalized dashboard with all the information you need to manage the examination system.</p>
                 </div>
 
                 <div class="dashboard-grid">
-                    <!-- Upcoming Exams -->
+                    <!-- System Overview -->
                     <div class="card">
                         <div class="card-header">
-                            <i class="fas fa-calendar-check"></i>
-                            <h3>Upcoming Exams</h3>
+                            <i class="fas fa-chart-bar"></i>
+                            <h3>System Overview</h3>
                         </div>
                         <div class="exam-list">
                             <div class="exam-item">
                                 <div class="exam-details">
-                                    <div class="exam-subject">Mathematics</div>
+                                    <div class="exam-subject">Total Students</div>
                                     <div class="exam-meta">
-                                        <span><i class="fas fa-calendar"></i> 15 Oct 2025</span>
-                                        <span><i class="fas fa-clock"></i> 10:00 AM</span>
+                                        <span><i class="fas fa-users"></i> Registered</span>
                                     </div>
                                 </div>
-                                <div class="exam-status status-scheduled">Scheduled</div>
+                                <div class="exam-status status-scheduled">1,245</div>
                             </div>
                             <div class="exam-item">
                                 <div class="exam-details">
-                                    <div class="exam-subject">Physics</div>
+                                    <div class="exam-subject">Active Exams</div>
                                     <div class="exam-meta">
-                                        <span><i class="fas fa-calendar"></i> 18 Oct 2025</span>
-                                        <span><i class="fas fa-clock"></i> 2:00 PM</span>
+                                        <span><i class="fas fa-calendar-check"></i> This week</span>
                                     </div>
                                 </div>
-                                <div class="exam-status status-scheduled">Scheduled</div>
+                                <div class="exam-status status-scheduled">8</div>
                             </div>
                             <div class="exam-item">
                                 <div class="exam-details">
-                                    <div class="exam-subject">Chemistry</div>
+                                    <div class="exam-subject">Available Rooms</div>
                                     <div class="exam-meta">
-                                        <span><i class="fas fa-calendar"></i> 22 Oct 2025</span>
-                                        <span><i class="fas fa-clock"></i> 9:00 AM</span>
+                                        <span><i class="fas fa-door-open"></i> For exams</span>
                                     </div>
                                 </div>
-                                <div class="exam-status status-scheduled">Scheduled</div>
+                                <div class="exam-status status-scheduled">24</div>
                             </div>
                         </div>
-                        <a href="../exams/exams.html" class="view-all-link">View Full Timetable</a>
-                    </div>
-
-                    <!-- Seating Arrangement -->
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fas fa-chair"></i>
-                            <h3>Seating Arrangement</h3>
-                        </div>
-                        <div class="seating-info" id="seatingInfo">
-                            <div class="seating-item">
-                                <span class="seating-label">Loading seating arrangements...</span>
-                                <span class="seating-value"><i class="fas fa-spinner fa-spin"></i></span>
-                            </div>
-                        </div>
-                        <a href="../seating/seating.html" class="view-all-link">View All Assignments</a>
                     </div>
 
                     <!-- Recent Notifications -->
@@ -396,63 +379,56 @@
                         </div>
                         <div class="notification-list">
                             <div class="notification-item">
-                                <div class="notification-title">Exam Schedule Updated</div>
-                                <div class="notification-content">The Mathematics exam has been rescheduled to 15 Oct 2025.</div>
+                                <div class="notification-title">New Student Registrations</div>
+                                <div class="notification-content">52 new students registered today.</div>
                                 <div class="notification-time">2 hours ago</div>
                             </div>
                             <div class="notification-item">
-                                <div class="notification-title">Seating Arrangement Published</div>
-                                <div class="notification-content">Your seating arrangements for all exams are now available.</div>
+                                <div class="notification-title">Timetable Updated</div>
+                                <div class="notification-content">Semester exam timetable has been updated.</div>
                                 <div class="notification-time">1 day ago</div>
                             </div>
                             <div class="notification-item">
-                                <div class="notification-title">Important Guidelines</div>
-                                <div class="notification-content">Please read the updated exam guidelines before your exams.</div>
+                                <div class="notification-title">Room Allocation</div>
+                                <div class="notification-content">Seating arrangements generated for all exams.</div>
                                 <div class="notification-time">2 days ago</div>
                             </div>
                         </div>
-                        <a href="../notifications/notifications.html" class="view-all-link">View All Notifications</a>
+                        <a href="notifications.html" class="view-all-link">View All Notifications</a>
                     </div>
                 </div>
 
-                <!-- Profile Summary -->
+                <!-- Quick Actions -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-user"></i>
-                        <h3>Profile Summary</h3>
+                        <i class="fas fa-bolt"></i>
+                        <h3>Quick Actions</h3>
                     </div>
                     <div class="dashboard-grid">
                         <div class="card" style="box-shadow: none; border: 1px solid var(--gray-200);">
-                            <div class="seating-item">
-                                <span class="seating-label">Name:</span>
-                                <span class="seating-value">John Doe</span>
-                            </div>
-                            <div class="seating-item">
-                                <span class="seating-label">Roll Number:</span>
-                                <span class="seating-value">B1-123</span>
-                            </div>
-                            <div class="seating-item">
-                                <span class="seating-label">Section:</span>
-                                <span class="seating-value">B1</span>
+                            <div style="text-align: center; padding: 20px;">
+                                <i class="fas fa-users" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                                <h4>Manage Students</h4>
+                                <p>Add, edit, or remove student records</p>
+                                <a href="students.html" class="btn btn-primary" style="margin-top: 10px;">Go to Students</a>
                             </div>
                         </div>
                         <div class="card" style="box-shadow: none; border: 1px solid var(--gray-200);">
-                            <div class="seating-item">
-                                <span class="seating-label">Email:</span>
-                                <span class="seating-value">john.doe@example.com</span>
-                            </div>
-                            <div class="seating-item">
-                                <span class="seating-label">Phone:</span>
-                                <span class="seating-value">+1234567890</span>
-                            </div>
-                            <div class="seating-item">
-                                <span class="seating-label">Enrollment Date:</span>
-                                <span class="seating-value">15 Aug 2023</span>
+                            <div style="text-align: center; padding: 20px;">
+                                <i class="fas fa-calendar-alt" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                                <h4>Exam Timetable</h4>
+                                <p>Create and manage exam schedules</p>
+                                <a href="timetable.html" class="btn btn-primary" style="margin-top: 10px;">Go to Timetable</a>
                             </div>
                         </div>
-                    </div>
-                    <div style="text-align: center; margin-top: var(--space-4);">
-                        <a href="../profile/profile.html" class="btn btn-primary"><i class="fas fa-edit"></i> Update Profile</a>
+                        <div class="card" style="box-shadow: none; border: 1px solid var(--gray-200);">
+                            <div style="text-align: center; padding: 20px;">
+                                <i class="fas fa-door-open" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px;"></i>
+                                <h4>Room Management</h4>
+                                <p>Manage exam rooms and seating</p>
+                                <a href="room.html" class="btn btn-primary" style="margin-top: 10px;">Go to Rooms</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -475,198 +451,12 @@
             document.getElementById('currentDateTime').textContent = now.toLocaleString("en-US", options);
         }
 
-        // Logout function
-        function logout() {
-            // Clear user data from localStorage
-            localStorage.removeItem('currentUser');
-            // Redirect to login page
-            window.location.href = 'index.html';
-        }
-
-        // Add event listener to logout link
-        document.addEventListener('DOMContentLoaded', function() {
-            const logoutLink = document.querySelector('a[href="index.html"]');
-            if (logoutLink) {
-                logoutLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    logout();
-                });
-            }
-        });
-
-        // Fetch student profile data
-        async function fetchProfileData() {
-            try {
-                // Get user data from localStorage
-                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-                
-                if (!currentUser) {
-                    console.error('No user data found');
-                    return;
-                }
-                
-                // Use the authenticated user data
-                const profile = {
-                    name: currentUser.name,
-                    rollNo: currentUser.rollNo,
-                    section: currentUser.section,
-                    email: currentUser.email || 'Not provided',
-                    phone: currentUser.phone || 'Not provided',
-                    enrollmentDate: currentUser.createdAt || new Date().toISOString()
-                };
-                
-                // Update profile data by selecting specific elements
-                // Name is the first .seating-value in the first card
-                const nameElements = document.querySelectorAll('.card .card:nth-child(1) .seating-value');
-                if (nameElements.length > 0) nameElements[0].textContent = profile.name;
-                
-                // Roll Number is the second .seating-value in the first card
-                if (nameElements.length > 1) nameElements[1].textContent = profile.rollNo;
-                
-                // Section is the third .seating-value in the first card
-                if (nameElements.length > 2) nameElements[2].textContent = profile.section;
-                
-                // Email is the first .seating-value in the second card
-                const contactElements = document.querySelectorAll('.card .card:nth-child(2) .seating-value');
-                if (contactElements.length > 0) contactElements[0].textContent = profile.email;
-                
-                // Phone is the second .seating-value in the second card
-                if (contactElements.length > 1) contactElements[1].textContent = profile.phone;
-                
-                // Enrollment Date is the third .seating-value in the second card
-                if (contactElements.length > 2) {
-                    contactElements[2].textContent = new Date(profile.enrollmentDate).toLocaleDateString("en-US", {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching profile data:', error);
-            }
-        }
-
-        // Fetch upcoming exams data
-        async function fetchUpcomingExams() {
-            try {
-                const exams = await fetchData('user/exams/upcoming');
-                const examList = document.querySelector('.exam-list');
-                examList.innerHTML = '';
-                
-                exams.slice(0, 3).forEach(exam => {
-                    const examDate = new Date(exam.date).toLocaleDateString("en-US", {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric'
-                    });
-                    
-                    const examItem = document.createElement('div');
-                    examItem.className = 'exam-item';
-                    examItem.innerHTML = `
-                        <div class="exam-details">
-                            <div class="exam-subject">${exam.subject}</div>
-                            <div class="exam-meta">
-                                <span><i class="fas fa-calendar"></i> ${examDate}</span>
-                                <span><i class="fas fa-clock"></i> ${exam.time}</span>
-                            </div>
-                        </div>
-                        <div class="exam-status status-scheduled">${exam.status}</div>
-                    `;
-                    examList.appendChild(examItem);
-                });
-            } catch (error) {
-                console.error('Error fetching exams data:', error);
-            }
-        }
-
-        // Fetch seating arrangements data
-        async function fetchSeatingArrangements() {
-            try {
-                console.log('Fetching seating arrangements...');
-                // Fetch real seating arrangement data from the API
-                const arrangements = await fetchData('user/seating');
-                console.log('Seating arrangements data:', arrangements);
-                
-                // Update the seating info display
-                const seatingInfo = document.getElementById('seatingInfo');
-                if (arrangements && arrangements.length > 0) {
-                    let html = '';
-                    // Display up to 3 arrangements
-                    arrangements.slice(0, 3).forEach((arrangement, index) => {
-                        // Use more user-friendly exam names
-                        const examNames = ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'English', 'Computer Science'];
-                        const examName = examNames[index] || arrangement.exam;
-                        
-                        html += `
-                            <div class="seating-item">
-                                <span class="seating-label">${examName} Exam:</span>
-                                <span class="seating-value">${arrangement.room}, ${arrangement.seat}</span>
-                            </div>
-                        `;
-                    });
-                    seatingInfo.innerHTML = html;
-                } else {
-                    seatingInfo.innerHTML = `
-                        <div class="seating-item">
-                            <span class="seating-label">No arrangements available</span>
-                            <span class="seating-value">Check back later</span>
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error fetching seating data:', error);
-                // Show error state
-                const seatingInfo = document.getElementById('seatingInfo');
-                if (seatingInfo) {
-                    seatingInfo.innerHTML = `
-                        <div class="seating-item">
-                            <span class="seating-label">Error loading data</span>
-                            <span class="seating-value">Please try again later</span>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Fetch notifications data
-        async function fetchRecentNotifications() {
-            try {
-                const notifications = await fetchData('user/notifications?limit=3');
-                const notificationList = document.querySelector('.notification-list');
-                notificationList.innerHTML = '';
-                
-                notifications.forEach(notification => {
-                    const notificationTime = new Date(notification.timestamp).toLocaleDateString("en-US", {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    });
-                    
-                    const notificationItem = document.createElement('div');
-                    notificationItem.className = 'notification-item';
-                    notificationItem.innerHTML = `
-                        <div class="notification-title">${notification.title}</div>
-                        <div class="notification-content">${notification.message}</div>
-                        <div class="notification-time">${notificationTime}</div>
-                    `;
-                    notificationList.appendChild(notificationItem);
-                });
-            } catch (error) {
-                console.error('Error fetching notifications data:', error);
-            }
-        }
-
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateCurrentDateTime();
             setInterval(updateCurrentDateTime, 60000); // Update every minute
-            
-            // Fetch all data
-            fetchProfileData();
-            fetchUpcomingExams();
-            fetchSeatingArrangements();
-            fetchRecentNotifications();
         });
     </script>
-    <script src="user.js"></script>
+    <script src="/dashboard.js"></script>
 </body>
 </html>
