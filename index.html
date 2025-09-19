@@ -126,6 +126,16 @@
             font-weight: 400;
         }
 
+        /* Password visibility toggle */
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #acacac;
+        }
+
         .social-text {
             padding: 0.7rem 0;
             font-size: 1rem;
@@ -522,6 +532,9 @@
 </head>
 
 <body>
+    <!-- Configuration script -->
+    <script src="config.js"></script>
+    
     <!-- <script src="OneSignalSDK-v16-ServiceWorker/OneSignalSDKWorker.js"></script>
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script> -->
     <!-- <script>
@@ -569,6 +582,9 @@
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input name="adminPassword" type="password" id="adminPassword" placeholder="Password" />
+                        <span class="password-toggle" id="adminPasswordToggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
 
                     <label class="control-label">Forgot Password? <a href="frmforgotpassword.aspx" class="links">Click Here</a></label>
@@ -603,6 +619,9 @@
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
                         <input name="userPassword" type="password" id="userPassword" placeholder="Password" />
+                        <span class="password-toggle" id="userPasswordToggle">
+                            <i class="fas fa-eye"></i>
+                        </span>
                     </div>
 
                     <label class="control-label">Forgot Password? <a href="frmforgotpassword.aspx" class="links">Click Here</a></label>
@@ -663,6 +682,24 @@
             container.classList.remove("sign-up-mode");
         });
 
+        // Password visibility toggle functionality
+        function setupPasswordToggle(inputId, toggleId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById(toggleId);
+            
+            if (input && toggle) {
+                toggle.addEventListener('click', function() {
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
+                    this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                });
+            }
+        }
+
+        // Setup password toggles
+        setupPasswordToggle('adminPassword', 'adminPasswordToggle');
+        setupPasswordToggle('userPassword', 'userPasswordToggle');
+
         // Theme color changer
         function changeGradientColor() {
             var color1 = document.getElementById("colorPicker").value;
@@ -722,7 +759,7 @@
             loginBtn.value = 'Logging in...';
             loginBtn.disabled = true;
             
-            // Send login request to server
+            // Send login request to server using the configured API URL
             const requestData = {
                 rollNo: rollNo,
                 password: password
@@ -730,7 +767,7 @@
             
             console.log('Sending login request:', requestData);
             
-            fetch('http://localhost:3006/api/auth/user/login', {
+            fetch(getApiUrl('/api/auth/user/login'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

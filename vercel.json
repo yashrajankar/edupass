@@ -6,6 +6,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "config.js",
+      "use": "@vercel/static"
+    },
+    {
       "src": "**/*.html",
       "use": "@vercel/static"
     },
@@ -22,6 +26,22 @@
     {
       "src": "/",
       "dest": "/index.html"
+    },
+    {
+      "src": "/admin-features/dashboard/dashboard.html",
+      "dest": "/admin-features/dashboard/dashboard.html"
+    },
+    {
+      "src": "/user-features/dashboard/dashboard.html",
+      "dest": "/user-features/dashboard/dashboard.html"
+    },
+    {
+      "src": "/admin-features/(.*)",
+      "dest": "/admin-features/$1"
+    },
+    {
+      "src": "/user-features/(.*)",
+      "dest": "/user-features/$1"
     },
     {
       "src": "/(.*)",

@@ -245,76 +245,92 @@ window.handleFetchError = function handleFetchError(error, operation) {
     showToast(`Failed to ${operation}. Please check your connection and try again.`, 'error');
 };
 
-// Enhanced fetchData function with environment awareness
+// Enhanced fetchData function with environment awareness using config.js
 window.fetchData = async function fetchData(endpoint, options = {}, retries = MAX_RETRIES, backoff = RETRY_DELAY) {
     try {
-        // Handle different endpoint formats correctly
+        // Use the getApiUrl function from config.js if available, otherwise use fallback logic
         let url;
         
-        // Determine base URL based on environment
-        // Fix for file:// protocol access - check if we're running via file protocol
-        const isFileProtocol = window.location.protocol === 'file:';
-        const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-        const isProduction = !isFileProtocol && !isLocalhost;
-        
-        // Always use localhost with the correct port for API calls in development
-        // Try to detect the correct port from the current page if available
-        let baseURL;
-        
-        // For development environments, try to detect the correct API server port
-        if (isLocalhost || isFileProtocol) {
-            // Try common development ports in order: 3002, 3000, 3001
-            // Based on our server logs, it's running on port 3002
-            const commonPorts = ['3002', '3000', '3001'];
-            let workingPort = null;
+        if (typeof window.getApiUrl === 'function') {
+            // Use the new configuration system
+            if (endpoint.startsWith('http')) {
+                // Full URL - use as is
+                url = endpoint;
+            } else if (endpoint.startsWith('/api/')) {
+                // Absolute API endpoint
+                url = window.getApiUrl(endpoint.substring(1)); // Remove leading slash
+            } else {
+                // Relative endpoint
+                url = window.getApiUrl(`api/${endpoint}`);
+            }
+        } else {
+            // Fallback to original logic if config.js is not available
+            console.warn('config.js not found, using fallback API URL detection');
             
-            // Try to detect the correct port by testing connectivity
-            for (const port of commonPorts) {
-                try {
-                    const testUrl = `http://localhost:${port}/api/health`;
-                    console.log('Testing port:', testUrl);
-                    const response = await fetch(testUrl, { 
-                        method: 'GET', 
-                        mode: 'cors',
-                        headers: {
-                            'Content-Type': 'application/json',
+            // Handle different endpoint formats correctly
+            let baseURL;
+            
+            // Determine base URL based on environment
+            // Fix for file:// protocol access - check if we're running via file protocol
+            const isFileProtocol = window.location.protocol === 'file:';
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const isProduction = !isFileProtocol && !isLocalhost;
+            
+            // For development environments, try to detect the correct API server port
+            if (isLocalhost || isFileProtocol) {
+                // Try common development ports in order: 3002, 3000, 3001
+                // Based on our server logs, it's running on port 3002
+                const commonPorts = ['3002', '3000', '3001'];
+                let workingPort = null;
+                
+                // Try to detect the correct port by testing connectivity
+                for (const port of commonPorts) {
+                    try {
+                        const testUrl = `http://localhost:${port}/api/health`;
+                        console.log('Testing port:', testUrl);
+                        const response = await fetch(testUrl, { 
+                            method: 'GET', 
+                            mode: 'cors',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            }
+                        });
+                        
+                        // Check if we got a valid JSON response
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data && data.status === 'healthy') {
+                                workingPort = port;
+                                console.log('Found working port:', port);
+                                break;
+                            }
                         }
-                    });
-                    
-                    // Check if we got a valid JSON response
-                    if (response.ok) {
-                        const data = await response.json();
-                        if (data && data.status === 'healthy') {
-                            workingPort = port;
-                            console.log('Found working port:', port);
-                            break;
-                        }
+                    } catch (testError) {
+                        console.log('Port', port, 'not working:', testError.message);
+                        // Continue to next port
                     }
-                } catch (testError) {
-                    console.log('Port', port, 'not working:', testError.message);
-                    // Continue to next port
                 }
+                
+                // If we found a working port, use it; otherwise default to 3002
+                const port = workingPort || '3002';
+                baseURL = `http://localhost:${port}`;
+            } else {
+                // For production or other environments, use the standard port
+                baseURL = 'http://localhost:3002';
             }
             
-            // If we found a working port, use it; otherwise default to 3002
-            const port = workingPort || '3002';
-            baseURL = `http://localhost:${port}`;
-        } else {
-            // For production or other environments, use the standard port
-            baseURL = 'http://localhost:3002';
-        }
-        
-        console.log('Determined baseURL:', baseURL);
-        
-        if (endpoint.startsWith('http')) {
-            // Full URL - use as is
-            url = endpoint;
-        } else if (endpoint.startsWith('/api/')) {
-            // Absolute API endpoint
-            url = `${baseURL}${endpoint}`;
-        } else {
-            // Relative endpoint
-            url = `${baseURL}/api/${endpoint}`;
+            console.log('Determined baseURL:', baseURL);
+            
+            if (endpoint.startsWith('http')) {
+                // Full URL - use as is
+                url = endpoint;
+            } else if (endpoint.startsWith('/api/')) {
+                // Absolute API endpoint
+                url = `${baseURL}${endpoint}`;
+            } else {
+                // Relative endpoint
+                url = `${baseURL}/api/${endpoint}`;
+            }
         }
         
         // Add cache-busting parameter for GET requests

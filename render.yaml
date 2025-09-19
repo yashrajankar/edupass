@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: edupass-backend
+    env: node
+    buildCommand: npm install
+    startCommand: node deployment-ready/app/server/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    domains:
+      - edupass-backend.onrender.com
